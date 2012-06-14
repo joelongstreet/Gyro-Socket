@@ -20,12 +20,18 @@ app.configure ->
     app.set 'view engine', 'jade'
 
 
-app.get '/', (req, res, next) ->
-    res.render 'index', players : players
+app.get '/', (req, res) ->
+    user_agent = req.headers['user-agent']
+    if /mobile/i.test user_agent then res.render 'mobile'
+    else
+        res.render 'index', players : players
 
-app.get '/mobile', (req, res, next) ->
+app.get '/mobile', (req, res) ->
     res.render 'mobile'
 
+app.get '/listen', (req, res) ->
+    res.render 'index', players : players
+    
 
 io.sockets.on 'connection', (socket) ->
     socket.on 'player_connect', (data) ->
