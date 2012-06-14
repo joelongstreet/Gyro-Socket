@@ -1,11 +1,14 @@
 (function() {
-  var Ball, my_balls, socket;
+  var Ball, message_content, my_balls, socket;
 
   socket = io.connect('/');
 
   my_balls = [];
 
+  message_content = [];
+
   $(function() {
+    message_content = $('.messages').find('.container');
     $('.player').each(function() {
       var ball, player;
       player = {};
@@ -59,6 +62,11 @@
           new_y = (pos / 360 * -1) * 100;
         }
         return _this.dom.css('left', new_y * y_sensitivity + y_offset);
+      });
+      socket.on("new_message_" + data.uid, function(message) {
+        var template;
+        template = "<li><span class='user'>" + data.name + "</span><span class='message'>" + message + "</span></li>";
+        return message_content.append(template);
       });
     }
 

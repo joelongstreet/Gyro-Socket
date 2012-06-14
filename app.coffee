@@ -36,7 +36,7 @@ app.get '/listen', (req, res) ->
 io.sockets.on 'connection', (socket) ->
     socket.on 'player_connect', (data) ->
 
-        player = 
+        player =
             uid  : data.uid
             name : data.name
             color: data.color
@@ -49,15 +49,21 @@ io.sockets.on 'connection', (socket) ->
             socket.broadcast.emit "update_x_#{player.uid}", pos
 
         socket.on "beta_update_#{player.uid}", (pos) ->
-            #remove from array here
             socket.broadcast.emit "update_y_#{player.uid}", pos
 
+        socket.on "message_#{player.uid}", (message) ->
+            socket.broadcast.emit "new_message_#{player.uid}", message
+
         socket.on 'error', ->
-            #remove from array here
+            for unit in players
+                if unit.uid == player.uid
+                    players.splice _i, 1
             socket.broadcast.emit 'remove_ball', player.uid
 
         socket.on 'disconnect', ->
-            players.remove player
+            for unit in players
+                if unit.uid == player.uid
+                    players.splice _i, 1
             socket.broadcast.emit 'remove_ball', player.uid
 
 

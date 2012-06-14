@@ -1,17 +1,19 @@
 $ ->
 
-    $('.btn').click ->
+    player = {}
+    socket = io.connect '/'
 
-        socket  = io.connect '/'
-        rando   = Math.floor(Math.random()*16777215).toString(16)
-        player  =
-            name    : $('input').val()
-            uid     : rando
-            color   : '#' + rando
+    $('#go').click ->
+        
+        rando           = Math.floor(Math.random()*16777215).toString(16)
+        player.name     = $('input').val()
+        player.uid      = rando
+        player.color    = '#' + rando
 
-        socket.emit 'player_connect', (player)
+        socket.emit 'player_connect', player
 
         $('#sign_up').hide()
+        $('#me').fadeIn()
 
         $('#color').css 'background-color', player.color
         $('#name').text player.name
@@ -25,3 +27,9 @@ $ ->
                 socket.emit "beta_update_#{player.uid}", e.beta
             prev_alpha = Math.round(e.alpha)
             prev_beta = Math.round(e.beta)
+
+    $('#send').click ->
+        message = $('#messager').val()
+        $('#messager').val('')
+        socket.emit "message_#{player.uid}", message
+        

@@ -1,7 +1,9 @@
 socket   = io.connect('/')
 my_balls = []
-
+message_content = []
 $ ->
+    
+    message_content     = $('.messages').find('.container')
     
     $('.player').each ->
         player          = {}
@@ -46,3 +48,8 @@ class Ball
             else
                 new_y = (pos/360*-1)*100
             @dom.css 'left', new_y*y_sensitivity + y_offset
+
+        socket.on "new_message_#{data.uid}", (message) =>
+            template = "<li><span class='user'>#{data.name}</span><span class='message'>#{message}</span></li>"
+            message_content.append(template)
+
