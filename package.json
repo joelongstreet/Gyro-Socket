@@ -2,17 +2,17 @@
   "name": "gyro-socket",
   "version": "0.0.1-2",
   "dependencies": {
-    "express": ">= 2.5.9",
-    "socket.io": ">= 0.9.6",
+    "express": "= 2.5.9",
+    "socket.io": "= 0.9.6",
     "coffee-script": "v1.2.0",
     "jade": "v0.20.0",
     "stylus": "v0.22.5"
   },
-  "subdomain": "gyro-socket",
+  "subdomain": "gyro",
   "scripts": {
     "start": "runner.js"
   },
   "engines": {
-    "node": "0.6.x"
+    "node": "0.8.x"
   }
 }
