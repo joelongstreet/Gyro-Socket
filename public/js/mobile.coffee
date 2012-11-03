@@ -21,9 +21,9 @@ $ ->
         prev_alpha = 0
         prev_beta  = 0
         window.ondeviceorientation = (e) ->
-            if Math.round(e.alpha) != prev_alpha
+            if Math.abs(e.alpha - prev_alpha) > 3
                 socket.emit "alpha_update_#{player.uid}", e.alpha
-            if Math.round(e.beta) != prev_beta
+            if Math.abs(e.beta - prev_beta) > 3
                 socket.emit "beta_update_#{player.uid}", e.beta
             prev_alpha = Math.round(e.alpha)
             prev_beta = Math.round(e.beta)
